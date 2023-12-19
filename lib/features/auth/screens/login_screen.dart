@@ -10,9 +10,12 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Image.asset(
-            Constants.logoPath,
-            height: 40,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 65),
+            child: Image.asset(
+              Constants.logoPath,
+              height: 40,
+            ),
           ),
         ),
         actions: [
