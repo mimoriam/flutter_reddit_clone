@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
-import 'package:flutter_reddit_clone/features/home/drawers/community_list.dart';
+import 'package:flutter_reddit_clone/features/home/drawers/community_list_drawer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -37,7 +37,7 @@ class HomeScreen extends ConsumerWidget {
           )
         ],
       ),
-      drawer: CommunityListDrawer(),
+      drawer: const CommunityListDrawer(),
     );
   }
 }
