@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:flutter_reddit_clone/models/user_model.dart';
 import 'package:flutter_reddit_clone/router.dart';
@@ -64,10 +65,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         error: (Object error, StackTrace stackTrace) {
           return Center(child: Text(error.toString()));
         },
-        loading: () {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+        loading: () => const Loader());
   }
 }
