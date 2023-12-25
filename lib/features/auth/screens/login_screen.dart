@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/core/common/sign_in_button.dart';
 import 'package:flutter_reddit_clone/core/constants/constants.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
@@ -10,6 +11,7 @@ class LoginScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(authControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -32,7 +34,7 @@ class LoginScreen extends ConsumerWidget {
         ],
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Loader()
           : Center(
               child: Column(
                 children: [

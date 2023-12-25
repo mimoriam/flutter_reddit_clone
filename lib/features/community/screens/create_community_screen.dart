@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/features/community/controller/community_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +35,7 @@ class _CreateCommunityScreenState extends ConsumerState<CreateCommunityScreen> {
         title: const Text('Create a community'),
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Loader()
           : Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
