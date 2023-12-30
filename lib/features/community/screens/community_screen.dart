@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:flutter_reddit_clone/features/community/controller/community_controller.dart';
+import 'package:flutter_reddit_clone/models/community_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -12,6 +13,12 @@ class CommunityScreen extends ConsumerWidget {
 
   void navigateToModTools(BuildContext context) {
     Routemaster.of(context).push('/mod-tools/$name');
+  }
+
+  void joinCommunity(WidgetRef ref, BuildContext context, Community community) {
+    ref
+        .read(communityControllerProvider.notifier)
+        .joinCommunity(community, context);
   }
 
   @override
@@ -85,7 +92,8 @@ class CommunityScreen extends ConsumerWidget {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 25),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () => joinCommunity(
+                                            ref, context, community),
                                         child: Text(
                                             community.members.contains(user.uid)
                                                 ? "Joined"

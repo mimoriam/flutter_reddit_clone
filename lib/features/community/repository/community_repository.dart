@@ -81,6 +81,32 @@ class CommunityRepository {
     });
   }
 
+  FutureVoid joinCommunity(String communityName, String userId) async {
+    try {
+      return right(_communities.doc(communityName).update({
+        // 'members': [userId],
+        'members': FieldValue.arrayUnion([userId]),
+      }));
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
+  FutureVoid leaveCommunity(String communityName, String userId) async {
+    try {
+      return right(_communities.doc(communityName).update({
+        // 'members': [userId],
+        'members': FieldValue.arrayRemove([userId]),
+      }));
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
   CollectionReference get _communities =>
       _firestore.collection(FirebaseConstants.communitiesCollection);
 }
