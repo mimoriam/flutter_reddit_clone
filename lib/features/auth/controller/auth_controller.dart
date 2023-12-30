@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reddit_clone/core/type_defs.dart';
 import 'package:flutter_reddit_clone/core/utils.dart';
 import 'package:flutter_reddit_clone/features/auth/repository/auth_repository.dart';
 import 'package:flutter_reddit_clone/models/user_model.dart';
@@ -50,5 +51,9 @@ class AuthController extends StateNotifier<bool> {
 
   Stream<UserModel> getUserData(String uid) {
     return _authRepository.getUserData(uid);
+  }
+
+  void logOut() async {
+    _authRepository.logOut();
   }
 }
