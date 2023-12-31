@@ -23,9 +23,9 @@ class Palette {
       backgroundColor: drawerColor,
     ),
     primaryColor: redColor,
-    // TODO: Fix Background Color (this and below)!
-    backgroundColor:
-        drawerColor, // will be used as alternative background color, deprecated
+    colorScheme: ThemeData.dark().colorScheme.copyWith(
+          background: drawerColor,
+        ),
   );
 
   static var lightModeAppTheme = ThemeData.light().copyWith(
@@ -42,6 +42,8 @@ class Palette {
       backgroundColor: whiteColor,
     ),
     primaryColor: redColor,
-    backgroundColor: whiteColor,
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+          background: whiteColor,
+        ),
   );
 }
