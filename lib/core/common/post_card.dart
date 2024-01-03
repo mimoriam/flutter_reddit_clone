@@ -1,11 +1,14 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/core/constants/constants.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
+import 'package:flutter_reddit_clone/features/community/controller/community_controller.dart';
 import 'package:flutter_reddit_clone/features/post/controller/post_controller.dart';
 import 'package:flutter_reddit_clone/models/post_model.dart';
 import 'package:flutter_reddit_clone/theme/palette.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
 class PostCard extends ConsumerWidget {
   final Post post;
@@ -22,6 +25,14 @@ class PostCard extends ConsumerWidget {
 
   void downvotePost(WidgetRef ref) async {
     ref.read(postControllerProvider.notifier).downvote(post);
+  }
+
+  void navigateToUser(BuildContext context) {
+    Routemaster.of(context).push('/u/${post.uid}');
+  }
+
+  void navigateToCommunity(BuildContext context) {
+    Routemaster.of(context).push('/r/${post.communityName}');
   }
 
   @override
@@ -59,7 +70,7 @@ class PostCard extends ConsumerWidget {
                               Row(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {},
+                                    onTap: () => navigateToCommunity(context),
                                     child: CircleAvatar(
                                       backgroundImage: NetworkImage(
                                         post.communityProfilePic,
@@ -81,7 +92,7 @@ class PostCard extends ConsumerWidget {
                                           ),
                                         ),
                                         GestureDetector(
-                                          onTap: () => {},
+                                          onTap: () => navigateToUser(context),
                                           child: Text(
                                             'u/${post.username}',
                                             style:
@@ -145,6 +156,7 @@ class PostCard extends ConsumerWidget {
                               ),
                             ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               IconButton(
                                 onPressed: () => upvotePost(ref),
@@ -180,6 +192,27 @@ class PostCard extends ConsumerWidget {
                                 '${post.commentCount == 0 ? 'Comment' : post.commentCount}',
                                 style: const TextStyle(fontSize: 17),
                               ),
+                              ref
+                                  .watch(getCommunityByNameProvider(
+                                      post.communityName))
+                                  .when(
+                                      data: (data) {
+                                        if (data.mods.contains(user.uid)) {
+                                          return IconButton(
+                                            onPressed: () => deletePost(ref, context),
+                                            icon: const Icon(
+                                              Icons.admin_panel_settings,
+                                            ),
+                                          );
+                                        }
+                                        return const SizedBox();
+                                      },
+                                      error: (Object error,
+                                          StackTrace stackTrace) {
+                                        return Center(
+                                            child: Text(error.toString()));
+                                      },
+                                      loading: () => const Loader())
                             ],
                           ),
                         ],
