@@ -76,4 +76,28 @@ class AuthRepository {
     await _googleSignIn.signOut();
     await _auth.signOut();
   }
+
+  FutureEither<UserModel> signInAsGuest() async {
+    try {
+      var userCredential = await _auth.signInAnonymously();
+
+      UserModel userModel = UserModel(
+        name: 'Guest',
+        profilePic: Constants.avatarDefault,
+        banner: Constants.bannerDefault,
+        uid: userCredential.user!.uid,
+        isAuthenticated: false,
+        karma: 0,
+        awards: [],
+      );
+
+      await _users.doc(userCredential.user!.uid).set(userModel.toMap());
+
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
 }
