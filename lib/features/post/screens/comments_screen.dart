@@ -40,6 +40,8 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
+    final isGuest = !user.isAuthenticated;
+
     return Scaffold(
       appBar: AppBar(),
       body: ref.watch(getPostByIdProvider(widget.postId)).when(
@@ -47,15 +49,16 @@ class _CommentsScreenState extends ConsumerState<CommentsScreen> {
             return Column(
               children: [
                 PostCard(post: data),
-                TextField(
-                  onSubmitted: (val) => addComment(data),
-                  controller: commentController,
-                  decoration: const InputDecoration(
-                    hintText: 'What are your thoughts?',
-                    filled: true,
-                    border: InputBorder.none,
+                if (!isGuest)
+                  TextField(
+                    onSubmitted: (val) => addComment(data),
+                    controller: commentController,
+                    decoration: const InputDecoration(
+                      hintText: 'What are your thoughts?',
+                      filled: true,
+                      border: InputBorder.none,
+                    ),
                   ),
-                ),
                 ref.watch(getPostCommentsProvider(widget.postId)).when(
                     data: (data) {
                       return Expanded(
