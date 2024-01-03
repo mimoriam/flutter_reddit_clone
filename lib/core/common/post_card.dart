@@ -35,6 +35,10 @@ class PostCard extends ConsumerWidget {
     Routemaster.of(context).push('/r/${post.communityName}');
   }
 
+  void navigateToComments(BuildContext context) {
+    Routemaster.of(context).push('/post/${post.id}/comments');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isTypeImage = post.type == 'image';
@@ -182,15 +186,19 @@ class PostCard extends ConsumerWidget {
                                       : null,
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.comment,
-                                ),
-                              ),
-                              Text(
-                                '${post.commentCount == 0 ? 'Comment' : post.commentCount}',
-                                style: const TextStyle(fontSize: 17),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () => navigateToComments(context),
+                                    icon: const Icon(
+                                      Icons.comment,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${post.commentCount == 0 ? 'Comment' : post.commentCount}',
+                                    style: const TextStyle(fontSize: 17),
+                                  ),
+                                ],
                               ),
                               ref
                                   .watch(getCommunityByNameProvider(
@@ -218,6 +226,7 @@ class PostCard extends ConsumerWidget {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               )
