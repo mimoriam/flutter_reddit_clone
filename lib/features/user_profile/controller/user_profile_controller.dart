@@ -5,6 +5,7 @@ import 'package:flutter_reddit_clone/core/providers/storage_repository_provider.
 import 'package:flutter_reddit_clone/core/utils.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:flutter_reddit_clone/features/user_profile/repository/user_profile_repository.dart';
+import 'package:flutter_reddit_clone/models/post_model.dart';
 import 'package:flutter_reddit_clone/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -18,6 +19,10 @@ final userProfileControllerProvider =
     storageRepository: storageRepository,
     ref: ref,
   );
+});
+
+final getUserPostsProvider = StreamProvider.family((ref, String uid) {
+  return ref.read(userProfileControllerProvider.notifier).getUserPosts(uid);
 });
 
 class UserProfileController extends StateNotifier<bool> {
@@ -78,5 +83,9 @@ class UserProfileController extends StateNotifier<bool> {
         Routemaster.of(context).pop();
       },
     );
+  }
+
+  Stream<List<Post>> getUserPosts(String uid) {
+    return _userProfileRepository.getUserPosts(uid);
   }
 }
