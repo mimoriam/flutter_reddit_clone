@@ -189,7 +189,8 @@ class PostCard extends ConsumerWidget {
                               Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () => navigateToComments(context),
+                                    onPressed: () =>
+                                        navigateToComments(context),
                                     icon: const Icon(
                                       Icons.comment,
                                     ),
@@ -204,23 +205,60 @@ class PostCard extends ConsumerWidget {
                                   .watch(getCommunityByNameProvider(
                                       post.communityName))
                                   .when(
-                                      data: (data) {
-                                        if (data.mods.contains(user.uid)) {
-                                          return IconButton(
-                                            onPressed: () => deletePost(ref, context),
-                                            icon: const Icon(
-                                              Icons.admin_panel_settings,
-                                            ),
-                                          );
-                                        }
-                                        return const SizedBox();
-                                      },
-                                      error: (Object error,
-                                          StackTrace stackTrace) {
-                                        return Center(
-                                            child: Text(error.toString()));
-                                      },
-                                      loading: () => const Loader())
+                                    data: (data) {
+                                      if (data.mods.contains(user.uid)) {
+                                        return IconButton(
+                                          onPressed: () =>
+                                              deletePost(ref, context),
+                                          icon: const Icon(
+                                            Icons.admin_panel_settings,
+                                          ),
+                                        );
+                                      }
+                                      return const SizedBox();
+                                    },
+                                    error:
+                                        (Object error, StackTrace stackTrace) {
+                                      return Center(
+                                          child: Text(error.toString()));
+                                    },
+                                    loading: () => const Loader(),
+                                  ),
+                              IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => Dialog(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: GridView.builder(
+                                          shrinkWrap: true,
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 4,
+                                          ),
+                                          itemCount: user.awards.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            final award = user.awards[index];
+
+                                            return GestureDetector(
+                                              onTap: () {},
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Image.asset(
+                                                    Constants.awards[award]!),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.card_giftcard_outlined),
+                              )
                             ],
                           ),
                         ],
