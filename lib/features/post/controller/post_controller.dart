@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_reddit_clone/core/enums/enums.dart';
 import 'package:flutter_reddit_clone/core/providers/storage_repository_provider.dart';
 import 'package:flutter_reddit_clone/core/utils.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
@@ -81,7 +82,9 @@ class PostController extends StateNotifier<bool> {
     );
 
     final res = await _postRepository.addPost(post);
-    // _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.textPost);
+    _ref
+        .read(userProfileControllerProvider.notifier)
+        .updateUserKarma(UserKarma.textPost);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Posted successfully!');
@@ -116,7 +119,9 @@ class PostController extends StateNotifier<bool> {
     );
 
     final res = await _postRepository.addPost(post);
-    // _ref.read(userProfileControllerProvider.notifier).updateUserKarma(UserKarma.linkPost);
+    _ref
+        .read(userProfileControllerProvider.notifier)
+        .updateUserKarma(UserKarma.linkPost);
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Posted successfully!');
@@ -157,9 +162,9 @@ class PostController extends StateNotifier<bool> {
       );
 
       final res = await _postRepository.addPost(post);
-      // _ref
-      //     .read(userProfileControllerProvider.notifier)
-      //     .updateUserKarma(UserKarma.imagePost);
+      _ref
+          .read(userProfileControllerProvider.notifier)
+          .updateUserKarma(UserKarma.imagePost);
       state = false;
       res.fold((l) => showSnackBar(context, l.message), (r) {
         showSnackBar(context, 'Posted successfully!');
