@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/core/common/post_card.dart';
+import 'package:flutter_reddit_clone/core/common/widgets/cached_network_image.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:flutter_reddit_clone/features/user_profile/controller/user_profile_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,12 +31,19 @@ class UserProfileScreen extends ConsumerWidget {
                       snap: true,
                       flexibleSpace: Stack(
                         children: [
+                          Positioned.fill(
+                            child: RCachedNetworkImage(
+                              imgUrl: user.banner,
+                            ),
+                          ),
                           Container(
                             alignment: Alignment.bottomLeft,
                             padding:
                                 const EdgeInsets.all(20).copyWith(bottom: 70),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(user.profilePic),
+                              // backgroundImage: NetworkImage(user.profilePic),
+                              backgroundImage:
+                                  CachedNetworkImageProvider(user.profilePic),
                               radius: 45,
                             ),
                           ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/features/community/controller/community_controller.dart';
@@ -40,7 +41,9 @@ class SearchCommunityDelegate extends SearchDelegate {
                 final community = communities[index];
                 return ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(community.avatar),
+                    // backgroundImage: NetworkImage(community.avatar),
+                    backgroundImage:
+                        CachedNetworkImageProvider(community.avatar),
                   ),
                   title: Text('r/${community.name}'),
                   onTap: () => navigateToCommunity(context, community.name),

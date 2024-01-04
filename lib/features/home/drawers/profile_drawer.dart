@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:flutter_reddit_clone/theme/palette.dart';
@@ -28,7 +29,8 @@ class ProfileDrawer extends ConsumerWidget {
         child: Column(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(user.profilePic),
+              // backgroundImage: NetworkImage(user.profilePic),
+              backgroundImage: CachedNetworkImageProvider(user.profilePic),
               radius: 70,
             ),
             const SizedBox(height: 10),
