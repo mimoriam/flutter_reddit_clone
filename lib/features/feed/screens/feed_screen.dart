@@ -16,7 +16,7 @@ class FeedScreen extends ConsumerWidget {
     final isGuest = !user.isAuthenticated;
 
     if (!isGuest) {
-      return ref.watch(userCommunitiesProvider).when(
+      return ref.watch(userCommunitiesProvider(user.uid)).when(
           data: (communities) => ref.watch(userPostsProvider(communities)).when(
               data: (data) {
                 return ListView.builder(
@@ -40,7 +40,7 @@ class FeedScreen extends ConsumerWidget {
           loading: () => const Loader());
     }
 
-    return ref.watch(userCommunitiesProvider).when(
+    return ref.watch(userCommunitiesProvider(user.uid)).when(
         data: (communities) => ref.watch(guestPostsProvider).when(
             data: (data) {
               return ListView.builder(

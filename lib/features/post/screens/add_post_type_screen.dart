@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reddit_clone/core/common/loader.dart';
 import 'package:flutter_reddit_clone/core/utils.dart';
+import 'package:flutter_reddit_clone/features/auth/controller/auth_controller.dart';
 import 'package:flutter_reddit_clone/features/community/controller/community_controller.dart';
 import 'package:flutter_reddit_clone/features/post/controller/post_controller.dart';
 import 'package:flutter_reddit_clone/models/community_model.dart';
@@ -83,6 +84,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
     final isTypeLink = widget.type == 'link';
     final currentTheme = ref.watch(themeNotifierProvider);
     final isLoading = ref.watch(postControllerProvider);
+    final uid = ref.read(userProvider)!.uid;
 
     return Scaffold(
       appBar: AppBar(
@@ -165,7 +167,7 @@ class _AddPostTypeScreenState extends ConsumerState<AddPostTypeScreen> {
                       'Select Community',
                     ),
                   ),
-                  ref.watch(userCommunitiesProvider).when(
+                  ref.watch(userCommunitiesProvider(uid)).when(
                       data: (data) {
                         communities = data;
 

@@ -22,9 +22,10 @@ final communityControllerProvider =
       storageRepository: ref.watch(storageRepositoryProvider));
 });
 
-final userCommunitiesProvider = StreamProvider((ref) {
+final userCommunitiesProvider =
+    StreamProvider.family<List<Community>, String>((ref, uid) {
   final communityController = ref.watch(communityControllerProvider.notifier);
-  return communityController.getUserCommunities();
+  return communityController.getUserCommunities(uid);
 });
 
 final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
@@ -76,8 +77,8 @@ class CommunityController extends StateNotifier<bool> {
     });
   }
 
-  Stream<List<Community>> getUserCommunities() {
-    final uid = _ref.read(userProvider)!.uid;
+  Stream<List<Community>> getUserCommunities(String uid) {
+    // final uid = _ref.read(userProvider)!.uid;
     return _communityRepository.getUserCommunities(uid);
   }
 

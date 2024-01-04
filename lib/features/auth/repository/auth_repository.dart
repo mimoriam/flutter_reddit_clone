@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_reddit_clone/core/constants/constants.dart';
 import 'package:flutter_reddit_clone/core/providers/firebase_providers.dart';
 import 'package:flutter_reddit_clone/core/type_defs.dart';
@@ -33,18 +34,26 @@ class AuthRepository {
 
   FutureEither<UserModel> signInWithGoogle(bool isFromLogin) async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-      final googleAuth = await googleUser?.authentication;
-      final credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
-
       UserCredential userCredential;
-      if (isFromLogin) {
-        userCredential = await _auth.signInWithCredential(credential);
+
+      if (kIsWeb) {
+        GoogleAuthProvider googleProvider = GoogleAuthProvider();
+        googleProvider
+            .addScope('https://www.googleapis.com/auth/contacts.readonly');
+        userCredential = await _auth.signInWithPopup(googleProvider);
       } else {
-        userCredential =
-            await _auth.currentUser!.linkWithCredential(credential);
+        final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+        final googleAuth = await googleUser?.authentication;
+        final credential = GoogleAuthProvider.credential(
+            accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+
+        if (isFromLogin) {
+          userCredential = await _auth.signInWithCredential(credential);
+        } else {
+          userCredential =
+              await _auth.currentUser!.linkWithCredential(credential);
+        }
       }
 
       UserModel userModel;
