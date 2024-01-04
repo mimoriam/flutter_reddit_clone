@@ -8,7 +8,7 @@ import 'package:flutter_reddit_clone/models/post_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final postRepositoryProvider = Provider((ref) {
+final postRepositoryProvider = Provider.autoDispose((ref) {
   return PostRepository(
     firestore: ref.watch(firestoreProvider),
   );

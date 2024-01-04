@@ -14,7 +14,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:routemaster/routemaster.dart';
 
 final communityControllerProvider =
-    StateNotifierProvider<CommunityController, bool>((ref) {
+    StateNotifierProvider.autoDispose<CommunityController, bool>((ref) {
   final communityRepository = ref.watch(communityRepositoryProvider);
   return CommunityController(
       communityRepository: communityRepository,
@@ -23,22 +23,25 @@ final communityControllerProvider =
 });
 
 final userCommunitiesProvider =
-    StreamProvider.family<List<Community>, String>((ref, uid) {
+    StreamProvider.family.autoDispose<List<Community>, String>((ref, uid) {
   final communityController = ref.watch(communityControllerProvider.notifier);
   return communityController.getUserCommunities(uid);
 });
 
-final getCommunityByNameProvider = StreamProvider.family((ref, String name) {
+final getCommunityByNameProvider =
+    StreamProvider.family.autoDispose((ref, String name) {
   return ref
       .watch(communityControllerProvider.notifier)
       .getCommunityByName(name);
 });
 
-final searchCommunityProvider = StreamProvider.family((ref, String query) {
+final searchCommunityProvider =
+    StreamProvider.family.autoDispose((ref, String query) {
   return ref.watch(communityControllerProvider.notifier).searchCommunity(query);
 });
 
-final getCommunityPostsProvider = StreamProvider.family((ref, String name) {
+final getCommunityPostsProvider =
+    StreamProvider.family.autoDispose((ref, String name) {
   return ref.read(communityControllerProvider.notifier).getCommunityPosts(name);
 });
 

@@ -15,7 +15,7 @@ import 'package:routemaster/routemaster.dart';
 import 'package:uuid/uuid.dart';
 
 final postControllerProvider =
-    StateNotifierProvider<PostController, bool>((ref) {
+    StateNotifierProvider.autoDispose<PostController, bool>((ref) {
   final postRepository = ref.watch(postRepositoryProvider);
   final storageRepository = ref.watch(storageRepositoryProvider);
   return PostController(
@@ -26,22 +26,24 @@ final postControllerProvider =
 });
 
 final userPostsProvider =
-    StreamProvider.family((ref, List<Community> communities) {
+    StreamProvider.family.autoDispose((ref, List<Community> communities) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchUserPosts(communities);
 });
 
-final getPostByIdProvider = StreamProvider.family((ref, String postId) {
+final getPostByIdProvider =
+    StreamProvider.family.autoDispose((ref, String postId) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.getPostById(postId);
 });
 
-final getPostCommentsProvider = StreamProvider.family((ref, String postId) {
+final getPostCommentsProvider =
+    StreamProvider.family.autoDispose((ref, String postId) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchPostComments(postId);
 });
 
-final guestPostsProvider = StreamProvider((ref) {
+final guestPostsProvider = StreamProvider.autoDispose((ref) {
   final postController = ref.watch(postControllerProvider.notifier);
   return postController.fetchGuestPosts();
 });

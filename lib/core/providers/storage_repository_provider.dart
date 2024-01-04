@@ -6,7 +6,7 @@ import 'package:flutter_reddit_clone/core/type_defs.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final storageRepositoryProvider = Provider(
+final storageRepositoryProvider = Provider.autoDispose(
     (ref) => StorageRepository(firebaseStorage: ref.watch(storageProvider)));
 
 class StorageRepository {

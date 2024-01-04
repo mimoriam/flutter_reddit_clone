@@ -7,7 +7,7 @@ import 'package:flutter_reddit_clone/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final userProfileRepositoryProvider = Provider((ref) {
+final userProfileRepositoryProvider = Provider.autoDispose((ref) {
   return UserProfileRepository(firestore: ref.watch(firestoreProvider));
 });
 

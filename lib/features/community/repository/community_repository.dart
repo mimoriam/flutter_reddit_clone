@@ -7,7 +7,7 @@ import 'package:flutter_reddit_clone/models/post_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
-final communityRepositoryProvider = Provider(
+final communityRepositoryProvider = Provider.autoDispose(
     (ref) => CommunityRepository(firestore: ref.watch(firestoreProvider)));
 
 class CommunityRepository {

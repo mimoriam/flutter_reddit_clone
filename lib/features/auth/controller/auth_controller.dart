@@ -9,18 +9,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final userProvider = StateProvider<UserModel?>((ref) => null);
 
 final authControllerProvider =
-    StateNotifierProvider<AuthController, bool>((ref) => AuthController(
-          authRepository: ref.watch(authRepositoryProvider),
-          ref: ref,
-        ));
+    StateNotifierProvider.autoDispose<AuthController, bool>(
+        (ref) => AuthController(
+              authRepository: ref.watch(authRepositoryProvider),
+              ref: ref,
+            ));
 
-final authStateChangeProvider = StreamProvider((ref) {
+final authStateChangeProvider = StreamProvider.autoDispose((ref) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.authStateChange;
 });
 
 // .family makes the provider accept more arguments other than ref
-final getUserDataProvider = StreamProvider.family((ref, String uid) {
+final getUserDataProvider =
+    StreamProvider.family.autoDispose((ref, String uid) {
   final authController = ref.watch(authControllerProvider.notifier);
   return authController.getUserData(uid);
 });

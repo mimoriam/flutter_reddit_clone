@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
 final userProfileControllerProvider =
-    StateNotifierProvider<UserProfileController, bool>((ref) {
+    StateNotifierProvider.autoDispose<UserProfileController, bool>((ref) {
   final userProfileRepository = ref.watch(userProfileRepositoryProvider);
   final storageRepository = ref.watch(storageRepositoryProvider);
   return UserProfileController(
@@ -22,7 +22,8 @@ final userProfileControllerProvider =
   );
 });
 
-final getUserPostsProvider = StreamProvider.family((ref, String uid) {
+final getUserPostsProvider =
+    StreamProvider.family.autoDispose((ref, String uid) {
   return ref.read(userProfileControllerProvider.notifier).getUserPosts(uid);
 });
 
